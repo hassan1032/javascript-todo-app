@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        var allData = [];
+        var isUpdateSelected = false;
+        var updateIndex = null;
+        function handleData() {
+            if(isUpdateSelected){
+                return updateData();
+            }
+            var username = document.getElementById("username")
+            var fullname = document.getElementById("fullname")
+            var address = document.getElementById("address")
+            var password = document.getElementById("password")
+
+            var formData = {
+                username: username.value,
+                fullname: fullname.value,
+                address: address.value,
+                password: password.value
+            };
+            allData.push(formData);
+            username.value = ""
+            fullname.value = ""
+            address.value = ""
+            password.value = ""
+            showData();
+
+        };
+
+        function showData() {
+            let tableData = allData.map((el, index) => {
+                let str = `<tr><th scope="row">${index + 1}</th><td>${el.username}</td><td>${el.fullname}</td><td>${el.address}</td><td>${el.password}</td><td><button class="btn btn-danger" onclick="deleteData(${index})">Delete</button><button class="btn btn-success" onclick="selectForUpdate(${index})">Update</button></td></tr>`
+                return str;
+            });
+
+            document.getElementById("table-data").innerHTML = tableData.join("");
+        };
+
+        function deleteData(index) {
+            allData.splice(Number(index), 1);
+            showData();
+        };
+
+        function selectForUpdate(index) {
+            let selectedObject = allData[Number(index)];
+            document.getElementById("username").value = selectedObject.username;
+            document.getElementById("fullname").value = selectedObject.fullname;
+            document.getElementById("address").value = selectedObject.address;
+            document.getElementById("password").value = selectedObject.password;
+            isUpdateSelected = true;
+            updateIndex = Number(index);
+        };
+
+        function updateData(){
+            var username = document.getElementById("username")
+            var fullname = document.getElementById("fullname")
+            var address = document.getElementById("address")
+            var password = document.getElementById("password");
+            allData[updateIndex].username = username.value
+            allData[updateIndex].fullname = fullname.value
+            allData[updateIndex].address = address.value
+            allData[updateIndex].password = password.value
+            showData();
+            isUpdateSelected = false;
+            updateIndex = null;
+            username.value = ""
+            fullname.value = ""
+            address.value = ""
+            password.value = ""
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align: center;">Contact Us</h1>
+            <div class="col-md-6 offset-md-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="a1">
+                            <input type="text" id="username" class="form-control" placeholder="User Name">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="a1">
+                            <input type="text" id="fullname" class="form-control" placeholder="Full Name">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="a1">
+                            <input type="text" id="address" class="form-control" placeholder="Address">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="a1">
+                            <input type="password" id="password" class="form-control" placeholder="password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" id="button" class="btn btn-danger" onclick="handleData()">Submit</button>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Fullname</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="table-data">
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
