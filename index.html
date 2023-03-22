@@ -16,15 +16,60 @@
         var allData = [];
         var isUpdateSelected = false;
         var updateIndex = null;
+
+        function validateForm() {
+            let isValid = true;
+            var username = document.getElementById("username")
+            var fullname = document.getElementById("fullname")
+            var address = document.getElementById("address")
+            var password = document.getElementById("password")
+
+            if (!username.value) {
+                username.style.border = '2px solid red'
+                isValid = false
+            } else {
+                username.style.border = ''
+            }
+
+            if (!fullname.value) {
+                fullname.style.border = '2px solid red'
+                isValid = false
+            } else {
+                fullname.style.border = ''
+            }
+
+            if (!address.value) {
+                address.style.border = '2px solid red'
+                isValid = false
+            } else {
+                address.style.border = ''
+            }
+
+            if (!password.value) {
+                password.style.border = '2px solid red'
+                isValid = false
+            } else {
+                password.style.border = ''
+            }
+
+            return {
+                isValid
+            }
+        }
         function handleData() {
-            if(isUpdateSelected){
-                return updateData();
+            const { isValid } = validateForm();
+            if (!isValid) {
+                return
             }
             var username = document.getElementById("username")
             var fullname = document.getElementById("fullname")
             var address = document.getElementById("address")
             var password = document.getElementById("password")
 
+
+            if (isUpdateSelected) {
+                return updateData();
+            }
             var formData = {
                 username: username.value,
                 fullname: fullname.value,
@@ -64,7 +109,7 @@
             updateIndex = Number(index);
         };
 
-        function updateData(){
+        function updateData() {
             var username = document.getElementById("username")
             var fullname = document.getElementById("fullname")
             var address = document.getElementById("address")
@@ -93,14 +138,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="a1">
-                            <input type="text" id="username" class="form-control" placeholder="User Name">
-
+                            <input type="text" id="username" class="form-control" placeholder="UserName">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="a1">
-                            <input type="text" id="fullname" class="form-control" placeholder="Full Name">
-
+                            <input type="text" id="fullname" class="form-control" placeholder="FullName">
                         </div>
                     </div>
                     <div class="col-md-6">
